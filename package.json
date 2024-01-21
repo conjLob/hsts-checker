@@ -1,7 +1,7 @@
 {
   "name": "hsts-checker",
   "version": "1.0.0",
-  "description": "A Chrome extension to check HSTS status of a website",
+  "description": "A browser extension to check HSTS status of a website",
   "author": "conjLob",
   "license": "GPL-3.0-only",
   "private": true,
