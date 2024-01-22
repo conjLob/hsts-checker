@@ -1,5 +1,14 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.5.2/schema.json",
+  "files": {
+    "include": ["**/*.[jt]s", "**/*.[jt]sx", "**/*.[cm][jt]s"]
+  },
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "defaultBranch": "main",
+    "useIgnoreFile": true
+  },
   "organizeImports": {
     "enabled": true
   },
@@ -10,6 +19,15 @@
   "javascript": {
     "formatter": {
       "quoteStyle": "single"
+    },
+    "parser": {
+      "unsafeParameterDecoratorsEnabled": true
+    }
+  },
+  "json": {
+    "parser": {
+      "allowComments": true,
+      "allowTrailingCommas": true
     }
   },
   "linter": {

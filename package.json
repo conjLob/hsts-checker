@@ -20,6 +20,10 @@
     "@biomejs/biome": "1.5.2",
     "@crxjs/vite-plugin": "2.0.0-beta.23",
     "solid-devtools": "^0.29.3",
+    "stylelint": "^16.2.0",
+    "stylelint-config-recess-order": "^4.4.0",
+    "stylelint-config-standard": "^36.0.0",
+    "stylelint-declaration-block-no-ignored-properties": "^2.8.0",
     "typescript": "^5.3.3",
     "vite": "^5.0.12",
     "vite-plugin-solid": "^2.8.2"

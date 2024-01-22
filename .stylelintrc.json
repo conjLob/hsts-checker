@@ -1,0 +1,20 @@
+{
+  "extends": ["stylelint-config-standard", "stylelint-config-recess-order"],
+  "plugins": ["stylelint-declaration-block-no-ignored-properties"],
+  "rules": {
+    "plugin/declaration-block-no-ignored-properties": true,
+    "declaration-property-value-no-unknown": true,
+    "media-feature-name-value-no-unknown": true,
+    "no-unknown-animations": true,
+    "declaration-no-important": true,
+    "font-weight-notation": "named-where-possible",
+    "selector-id-pattern": [
+      "^[a-z][a-zA-Z0-9]+$",
+      { "message": "Expected \"%s\" to be camelCase (selector-id-pattern)" }
+    ],
+    "selector-class-pattern": [
+      "^[a-z][a-zA-Z0-9]+$",
+      { "message": "Expected \"%s\" to be camelCase (selector-class-pattern)" }
+    ]
+  }
+}
