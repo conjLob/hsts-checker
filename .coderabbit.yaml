@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/coderabbit-overrides.v2.json
+
+language: en
+
+reviews:
+  poem: false
+  auto_review:
+    ignore_title_keywords: [NORABBIT]
+  path_filters:
+    - "**/*.ts"
+    - "**/*.tsx"
+    - "**/*.html"
+    - "**/*.css"
+
+chat:
+  auto_reply: true
