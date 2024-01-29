@@ -8,6 +8,9 @@ dependencies:
   solid-js:
     specifier: ^1.8.11
     version: 1.8.11
+  webextension-polyfill:
+    specifier: ^0.10.0
+    version: 0.10.0
 
 devDependencies:
   '@biomejs/biome':
@@ -16,6 +19,9 @@ devDependencies:
   '@crxjs/vite-plugin':
     specifier: 2.0.0-beta.23
     version: 2.0.0-beta.23
+  '@types/webextension-polyfill':
+    specifier: ^0.10.7
+    version: 0.10.7
   solid-devtools:
     specifier: ^0.29.3
     version: 0.29.3(solid-js@1.8.11)(vite@5.0.12)
@@ -1162,6 +1168,10 @@ packages:
 
   /@types/estree@1.0.5:
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
+    dev: true
+
+  /@types/webextension-polyfill@0.10.7:
+    resolution: {integrity: sha512-10ql7A0qzBmFB+F+qAke/nP1PIonS0TXZAOMVOxEUsm+lGSW6uwVcISFNa0I4Oyj0884TZVWGGMIWeXOVSNFHw==}
     dev: true
 
   /@webcomponents/custom-elements@1.6.0:
@@ -2553,6 +2563,10 @@ packages:
     dependencies:
       vite: 5.0.12
     dev: true
+
+  /webextension-polyfill@0.10.0:
+    resolution: {integrity: sha512-c5s35LgVa5tFaHhrZDnr3FpQpjj1BB+RXhLTYUxGqBVN460HkbM8TBtEqdXWbpTKfzwCcjAZVF7zXCYSKtcp9g==}
+    dev: false
 
   /which@1.3.1:
     resolution: {integrity: sha512-HxJdYWq1MTIQbJ3nw0cqssHoTNU267KlrDuGZ1WYlxDStUtKUhOaJmh112/TZmHxxUfuJqPXSOm7tDyas0OSIQ==}

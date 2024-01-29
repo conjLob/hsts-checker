@@ -46,7 +46,7 @@
       "style": {
         "noNamespace": "error",
         "useFragmentSyntax": "error",
-        "useNamingConvention": "error",
+        "useNamingConvention": "off",
         "useShorthandArrayType": "error",
         "useShorthandAssign": "error"
       },

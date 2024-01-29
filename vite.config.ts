@@ -3,17 +3,29 @@ import devtools from 'solid-devtools/vite';
 import { defineConfig } from 'vite';
 import solid from 'vite-plugin-solid';
 
-import manifest from './manifest.json';
+import manifest from './manifest.config.ts';
+
+import tsconfig from './tsconfig.json';
+
+const PORT = 3000;
 
 export default defineConfig({
   plugins: [crx({ manifest }), solid(), devtools()],
   server: {
-    port: 3000,
+    strictPort: true,
+    port: PORT,
+    hmr: {
+      // By default, the HMR port number is detected from `import.meta.url`.
+      // But in extensions, `import.meta.url` will be like `chrome-extension://<ID>/...`.
+      // So the port must be manually specified to match the dev server.
+      clientPort: PORT,
+    },
   },
   preview: {
-    port: 3000,
+    strictPort: true,
+    port: PORT,
   },
   build: {
-    target: 'ES2022',
+    target: tsconfig.compilerOptions.target,
   },
 });
