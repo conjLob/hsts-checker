@@ -74,7 +74,13 @@ const setCache = async <T extends SecurityHeadersOrFetching>(
   host: string,
   cache: T,
 ): Promise<T> => {
-  await browser.storage.session.set({ [host]: cache });
+  try {
+    await browser.storage.session.set({ [host]: cache });
+  } catch {
+    // Quota exceeded
+    await browser.storage.session.clear();
+    await browser.storage.session.set({ [host]: cache });
+  }
   return cache;
 };
 
