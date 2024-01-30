@@ -1,5 +1,6 @@
 {
   "name": "hsts-checker",
+  "displayName": "HSTS Checker",
   "version": "1.0.0",
   "description": "A browser extension to check HSTS status of a website",
   "author": "conjLob",

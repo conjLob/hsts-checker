@@ -10,7 +10,14 @@ import tsconfig from './tsconfig.json';
 const PORT = 3000;
 
 export default defineConfig({
-  plugins: [crx({ manifest }), solid(), devtools()],
+  plugins: [
+    crx({
+      manifest,
+      browser: process.env.BROWSER_ENV === 'firefox' ? 'firefox' : 'chrome',
+    }),
+    solid(),
+    devtools(),
+  ],
   server: {
     strictPort: true,
     port: PORT,
