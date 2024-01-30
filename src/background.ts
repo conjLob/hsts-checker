@@ -47,7 +47,6 @@ const fetchSecurityHeaders = async (
       method: 'HEAD',
       cache: 'no-store',
       redirect: 'manual',
-      credentials: 'omit',
     });
     headers = res.headers;
   } catch (e) {
@@ -76,8 +75,9 @@ const setCache = async <T extends SecurityHeadersOrFetching>(
 ): Promise<T> => {
   try {
     await browser.storage.session.set({ [host]: cache });
-  } catch {
+  } catch (e) {
     // Quota exceeded
+    console.info(e);
     await browser.storage.session.clear();
     await browser.storage.session.set({ [host]: cache });
   }
