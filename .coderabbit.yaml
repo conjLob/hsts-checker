@@ -7,6 +7,7 @@ reviews:
   auto_review:
     ignore_title_keywords: [NORABBIT]
   path_filters:
+    - "**/*.sh"
     - "**/*.ts"
     - "**/*.tsx"
     - "**/*.html"
