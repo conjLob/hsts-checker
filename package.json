@@ -13,7 +13,7 @@
     "local": "vite preview",
     "build": "tsc && vite build",
     "lint": "biome check",
-    "fetch:preload": "bash ./scripts/fetch-preload.sh"
+    "fetch:preload": "./scripts/fetch-preload.sh"
   },
   "dependencies": {
     "solid-js": "^1.8.11",
