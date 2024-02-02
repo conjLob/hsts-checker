@@ -1,9 +1,17 @@
 import browser from 'webextension-polyfill';
 
+import preloadList from './preload.json';
+
 type HSTS = {
+  preloaded: false;
   maxAge: number;
   includeSubDomains: boolean;
   preload: boolean;
+};
+
+type PreloadHSTS = {
+  preloaded: true;
+  publicSuffix: string;
 };
 
 type Fetching = {
@@ -12,10 +20,33 @@ type Fetching = {
 
 type SecurityHeaders = {
   fetching: false;
-  hsts?: HSTS;
+  hsts?: HSTS | PreloadHSTS;
 };
 
 type SecurityHeadersOrFetching = SecurityHeaders | Fetching;
+
+const preload = new Set(preloadList);
+
+const checkPreload = (hostname: string): PreloadHSTS | undefined => {
+  const domain = hostname.split('.');
+  if (domain.length < 2) return;
+
+  const tld = domain[domain.length - 1];
+  if (preload.has(tld)) {
+    return {
+      preloaded: true,
+      publicSuffix: tld,
+    };
+  }
+
+  const sld = domain.slice(-2).join('.');
+  if (preload.has(sld)) {
+    return {
+      preloaded: true,
+      publicSuffix: sld,
+    };
+  }
+};
 
 const parseHSTS = (hsts: string): HSTS | undefined => {
   const directives = hsts.replace(/[ "]/g, '').toLowerCase().split(';');
@@ -24,6 +55,7 @@ const parseHSTS = (hsts: string): HSTS | undefined => {
   if (maxAge === undefined) return;
 
   return {
+    preloaded: false,
     maxAge: Number.parseInt(maxAge),
     includeSubDomains: directives.includes('includesubdomains'),
     preload: directives.includes('preload'),
@@ -34,7 +66,7 @@ const fetchSecurityHeaders = async (
   url: string,
   cacheOnly: boolean,
 ): Promise<SecurityHeadersOrFetching | undefined> => {
-  const { host } = new URL(url);
+  const { host, hostname } = new URL(url);
 
   const cache = await getCache(host);
   if (cache !== undefined || cacheOnly) return cache;
@@ -47,7 +79,6 @@ const fetchSecurityHeaders = async (
       method: 'HEAD',
       cache: 'no-store',
       redirect: 'manual',
-      credentials: 'omit',
     });
     headers = res.headers;
   } catch (e) {
@@ -60,7 +91,7 @@ const fetchSecurityHeaders = async (
 
   return await setCache(host, {
     fetching: false,
-    hsts: hsts ? parseHSTS(hsts) : undefined,
+    hsts: hsts ? parseHSTS(hsts) : checkPreload(hostname),
   });
 };
 
@@ -76,8 +107,9 @@ const setCache = async <T extends SecurityHeadersOrFetching>(
 ): Promise<T> => {
   try {
     await browser.storage.session.set({ [host]: cache });
-  } catch {
+  } catch (e) {
     // Quota exceeded
+    console.info(e);
     await browser.storage.session.clear();
     await browser.storage.session.set({ [host]: cache });
   }
@@ -89,14 +121,16 @@ const removeCache = async (host: string) => {
 };
 
 const setBadge = async (tabId: number, secHeaders: SecurityHeaders) => {
-  const secure = secHeaders.hsts !== undefined && secHeaders.hsts.maxAge > 0;
+  const secure =
+    secHeaders.hsts !== undefined &&
+    (secHeaders.hsts.preloaded || secHeaders.hsts.maxAge > 0);
 
   await browser.action.setBadgeText({
     text: secure ? '✓' : '✕',
     tabId,
   });
   browser.action.setBadgeTextColor({
-    color: secure ? '#28a745' : '#dc3545',
+    color: secure ? '#34d058' : '#ea4a5a',
     tabId,
   });
 };
@@ -108,6 +142,7 @@ browser.webRequest.onResponseStarted.addListener(
     if (fromCache) {
       const secHeaders = await fetchSecurityHeaders(url, method !== 'GET');
       if (secHeaders === undefined || secHeaders.fetching) return;
+
       await setBadge(tabId, secHeaders);
       return;
     }
@@ -116,9 +151,11 @@ browser.webRequest.onResponseStarted.addListener(
       ({ name }) => name.toLowerCase() === 'strict-transport-security',
     )?.value;
 
-    await setCache(new URL(url).host, {
+    const { host, hostname } = new URL(url);
+
+    await setCache(host, {
       fetching: false,
-      hsts: header ? parseHSTS(header) : undefined,
+      hsts: header ? parseHSTS(header) : checkPreload(hostname),
     });
   },
   {
@@ -137,6 +174,7 @@ browser.webNavigation.onCommitted.addListener(
       transitionType === 'form_submit',
     );
     if (secHeaders === undefined || secHeaders.fetching) return;
+
     await setBadge(tabId, secHeaders);
   },
   {

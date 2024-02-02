@@ -1,5 +1,6 @@
 {
   "name": "hsts-checker",
+  "displayName": "HSTS Checker",
   "version": "1.0.0",
   "description": "A browser extension to check HSTS status of a website",
   "author": "conjLob",
@@ -11,7 +12,8 @@
     "dev": "vite",
     "local": "vite preview",
     "build": "tsc && vite build",
-    "lint": "biome check"
+    "lint": "biome check",
+    "fetch:preload": "./scripts/fetch-preload.sh"
   },
   "dependencies": {
     "solid-js": "^1.8.11",
@@ -20,6 +22,7 @@
   "devDependencies": {
     "@biomejs/biome": "1.5.2",
     "@crxjs/vite-plugin": "2.0.0-beta.23",
+    "@types/node": "^20.11.10",
     "@types/webextension-polyfill": "^0.10.7",
     "solid-devtools": "^0.29.3",
     "stylelint": "^16.2.0",
