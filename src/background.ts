@@ -29,6 +29,7 @@ const preload = new Set(preloadList);
 
 const checkPreload = (hostname: string): PreloadHSTS | undefined => {
   const domain = hostname.split('.');
+  if (domain.length < 2) return;
 
   const tld = domain[domain.length - 1];
   if (preload.has(tld)) {
