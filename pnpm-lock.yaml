@@ -8,9 +8,6 @@ dependencies:
   solid-js:
     specifier: ^1.8.11
     version: 1.8.11
-  webextension-polyfill:
-    specifier: ^0.10.0
-    version: 0.10.0
 
 devDependencies:
   '@biomejs/biome':
@@ -19,12 +16,15 @@ devDependencies:
   '@crxjs/vite-plugin':
     specifier: 2.0.0-beta.23
     version: 2.0.0-beta.23
+  '@types/chrome':
+    specifier: ^0.0.260
+    version: 0.0.260
+  '@types/firefox-webext-browser':
+    specifier: ^120.0.0
+    version: 120.0.0
   '@types/node':
     specifier: ^20.11.10
     version: 20.11.10
-  '@types/webextension-polyfill':
-    specifier: ^0.10.7
-    version: 0.10.7
   solid-devtools:
     specifier: ^0.29.3
     version: 0.29.3(solid-js@1.8.11)(vite@5.0.12)
@@ -1169,18 +1169,39 @@ packages:
       '@babel/types': 7.22.5
     dev: true
 
+  /@types/chrome@0.0.260:
+    resolution: {integrity: sha512-lX6QpgfsZRTDpNcCJ+3vzfFnFXq9bScFRTlfhbK5oecSAjamsno+ejFTCbNtc5O/TPnVK9Tja/PyecvWQe0F2w==}
+    dependencies:
+      '@types/filesystem': 0.0.35
+      '@types/har-format': 1.2.15
+    dev: true
+
   /@types/estree@1.0.5:
     resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
+    dev: true
+
+  /@types/filesystem@0.0.35:
+    resolution: {integrity: sha512-1eKvCaIBdrD2mmMgy5dwh564rVvfEhZTWVQQGRNn0Nt4ZEnJ0C8oSUCzvMKRA4lGde5oEVo+q2MrTTbV/GHDCQ==}
+    dependencies:
+      '@types/filewriter': 0.0.33
+    dev: true
+
+  /@types/filewriter@0.0.33:
+    resolution: {integrity: sha512-xFU8ZXTw4gd358lb2jw25nxY9QAgqn2+bKKjKOYfNCzN4DKCFetK7sPtrlpg66Ywe3vWY9FNxprZawAh9wfJ3g==}
+    dev: true
+
+  /@types/firefox-webext-browser@120.0.0:
+    resolution: {integrity: sha512-L+tDlwNeq0kQGfAYc2sNfKhRWJz9CNRvlbq9HnLibKUiJ3VTThG8sj7xrJF4CtKpEA9eBAr91Z2nnKIAy+xUJg==}
+    dev: true
+
+  /@types/har-format@1.2.15:
+    resolution: {integrity: sha512-RpQH4rXLuvTXKR0zqHq3go0RVXYv/YVqv4TnPH95VbwUxZdQlK1EtcMvQvMpDngHbt13Csh9Z4qT9AbkiQH5BA==}
     dev: true
 
   /@types/node@20.11.10:
     resolution: {integrity: sha512-rZEfe/hJSGYmdfX9tvcPMYeYPW2sNl50nsw4jZmRcaG0HIAb0WYEpsB05GOb53vjqpyE9GUhlDQ4jLSoB5q9kg==}
     dependencies:
       undici-types: 5.26.5
-    dev: true
-
-  /@types/webextension-polyfill@0.10.7:
-    resolution: {integrity: sha512-10ql7A0qzBmFB+F+qAke/nP1PIonS0TXZAOMVOxEUsm+lGSW6uwVcISFNa0I4Oyj0884TZVWGGMIWeXOVSNFHw==}
     dev: true
 
   /@webcomponents/custom-elements@1.6.0:
@@ -2577,10 +2598,6 @@ packages:
     dependencies:
       vite: 5.0.12(@types/node@20.11.10)
     dev: true
-
-  /webextension-polyfill@0.10.0:
-    resolution: {integrity: sha512-c5s35LgVa5tFaHhrZDnr3FpQpjj1BB+RXhLTYUxGqBVN460HkbM8TBtEqdXWbpTKfzwCcjAZVF7zXCYSKtcp9g==}
-    dev: false
 
   /which@1.3.1:
     resolution: {integrity: sha512-HxJdYWq1MTIQbJ3nw0cqssHoTNU267KlrDuGZ1WYlxDStUtKUhOaJmh112/TZmHxxUfuJqPXSOm7tDyas0OSIQ==}
