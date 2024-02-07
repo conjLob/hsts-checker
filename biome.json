@@ -22,7 +22,8 @@
     },
     "parser": {
       "unsafeParameterDecoratorsEnabled": true
-    }
+    },
+    "globals": ["browser", "chrome"]
   },
   "json": {
     "parser": {
