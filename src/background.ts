@@ -109,12 +109,17 @@ const setCache = async <T extends SecurityHeadersOrFetching>(
     await browser.storage.session.set({ [host]: cache });
     return cache;
   } catch (e) {
-    // Firefox doesn't support `storage.session.getBytesInUse` yet.
-    // So it's always considered as "quota exceeded" in Firefox.
+    // Firefox doesn't support `storage.session.getBytesInUse` and `QUOTA_BYTES` yet.
+    // https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea/getBytesInUse
     const size = await browser.storage.session.getBytesInUse?.();
+    const limit =
+      (browser.storage.session as chrome.storage.SessionStorageArea)
+        .QUOTA_BYTES ?? 1_000_000; // 1MB
 
-    if (size === undefined || size > 1000_000_000 /* 1MB */) {
-      // Quota exceeded
+    if (
+      (e instanceof Error && e.name === 'QuotaExceededError') || // This error is out of W3C WebExtensions spec.
+      (size !== undefined && size > limit * 0.9)
+    ) {
       console.info(e);
       await browser.storage.session.clear();
       await browser.storage.session.set({ [host]: cache });
