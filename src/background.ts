@@ -1,4 +1,4 @@
-import browser from 'webextension-polyfill';
+import browser from './browser.ts';
 
 import preloadList from './preload.json';
 
@@ -107,13 +107,28 @@ const setCache = async <T extends SecurityHeadersOrFetching>(
 ): Promise<T> => {
   try {
     await browser.storage.session.set({ [host]: cache });
+    return cache;
   } catch (e) {
-    // Quota exceeded
-    console.info(e);
-    await browser.storage.session.clear();
-    await browser.storage.session.set({ [host]: cache });
+    // Firefox doesn't support `storage.session.getBytesInUse` and `QUOTA_BYTES` yet.
+    // https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea/getBytesInUse
+    const size = await browser.storage.session.getBytesInUse?.();
+    const limit =
+      'QUOTA_BYTES' in browser.storage.session
+        ? browser.storage.session.QUOTA_BYTES
+        : 1_000_000; // 1MB
+
+    if (
+      (e instanceof Error && e.name === 'QuotaExceededError') || // This error is out of W3C WebExtensions spec.
+      (size !== undefined && size > limit * 0.9)
+    ) {
+      console.info(e);
+      await browser.storage.session.clear();
+      await browser.storage.session.set({ [host]: cache });
+      return cache;
+    }
+
+    throw e;
   }
-  return cache;
 };
 
 const removeCache = async (host: string) => {
@@ -129,9 +144,12 @@ const setBadge = async (tabId: number, secHeaders: SecurityHeaders) => {
     text: secure ? '✓' : '✕',
     tabId,
   });
-  browser.action.setBadgeTextColor({
+  await browser.action.setBadgeTextColor({
     color: secure ? '#34d058' : '#ea4a5a',
     tabId,
+  });
+  await browser.action.setBadgeBackgroundColor({
+    color: '#282828',
   });
 };
 

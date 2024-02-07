@@ -1,5 +1,6 @@
 {
   "[typescript][typescriptreact]": {
     "editor.defaultFormatter": "biomejs.biome"
-  }
+  },
+  "github.copilot.chat.localeOverride": "en"
 }
