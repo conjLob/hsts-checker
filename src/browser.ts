@@ -1,3 +1,5 @@
-export default (self.browser ?? self.chrome) as
-  | typeof self.browser
-  | typeof self.chrome;
+type Browser = typeof self.browser | typeof self.chrome;
+
+const browser: Browser = self.browser ?? self.chrome;
+
+export default browser;

@@ -113,8 +113,9 @@ const setCache = async <T extends SecurityHeadersOrFetching>(
     // https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API/storage/StorageArea/getBytesInUse
     const size = await browser.storage.session.getBytesInUse?.();
     const limit =
-      (browser.storage.session as chrome.storage.SessionStorageArea)
-        .QUOTA_BYTES ?? 1_000_000; // 1MB
+      'QUOTA_BYTES' in browser.storage.session
+        ? browser.storage.session.QUOTA_BYTES
+        : 1_000_000; // 1MB
 
     if (
       (e instanceof Error && e.name === 'QuotaExceededError') || // This error is out of W3C WebExtensions spec.
