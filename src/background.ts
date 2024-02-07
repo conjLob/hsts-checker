@@ -129,9 +129,12 @@ const setBadge = async (tabId: number, secHeaders: SecurityHeaders) => {
     text: secure ? '✓' : '✕',
     tabId,
   });
-  browser.action.setBadgeTextColor({
+  await browser.action.setBadgeTextColor({
     color: secure ? '#34d058' : '#ea4a5a',
     tabId,
+  });
+  await browser.action.setBadgeBackgroundColor({
+    color: '#282828',
   });
 };
 
