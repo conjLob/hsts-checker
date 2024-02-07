@@ -107,13 +107,22 @@ const setCache = async <T extends SecurityHeadersOrFetching>(
 ): Promise<T> => {
   try {
     await browser.storage.session.set({ [host]: cache });
+    return cache;
   } catch (e) {
-    // Quota exceeded
-    console.info(e);
-    await browser.storage.session.clear();
-    await browser.storage.session.set({ [host]: cache });
+    // Firefox doesn't support `storage.session.getBytesInUse` yet.
+    // So it's always considered as "quota exceeded" in Firefox.
+    const size = await browser.storage.session.getBytesInUse?.();
+
+    if (size === undefined || size > 1000_000_000 /* 1MB */) {
+      // Quota exceeded
+      console.info(e);
+      await browser.storage.session.clear();
+      await browser.storage.session.set({ [host]: cache });
+      return cache;
+    }
+
+    throw e;
   }
-  return cache;
 };
 
 const removeCache = async (host: string) => {
