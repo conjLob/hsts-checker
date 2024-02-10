@@ -14,8 +14,6 @@
     "isolatedModules": true,
     "noEmit": true,
     "incremental": true,
-    "jsx": "preserve",
-    "jsxImportSource": "solid-js",
 
     "strict": true,
     "noUnusedLocals": true,

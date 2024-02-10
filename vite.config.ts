@@ -1,7 +1,5 @@
 import { crx } from '@crxjs/vite-plugin';
-import devtools from 'solid-devtools/vite';
 import { defineConfig } from 'vite';
-import solid from 'vite-plugin-solid';
 
 import manifest from './manifest.config.ts';
 
@@ -15,8 +13,6 @@ export default defineConfig({
       manifest,
       browser: process.env.BROWSER_ENV === 'firefox' ? 'firefox' : 'chrome',
     }),
-    solid(),
-    devtools(),
   ],
   server: {
     strictPort: true,
