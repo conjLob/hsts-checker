@@ -34,5 +34,10 @@ export default defineConfig({
   },
   build: {
     target: tsconfig.compilerOptions.target,
+    // Store policy allows code minification. But, users should be able to
+    // read the installed code and evaluate its safety, so do not minify.
+    // https://developer.chrome.com/docs/webstore/program-policies/code-readability
+    // https://extensionworkshop.com/documentation/publish/source-code-submission/
+    minify: false,
   },
 });
