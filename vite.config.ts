@@ -1,7 +1,5 @@
 import { crx } from '@crxjs/vite-plugin';
-import devtools from 'solid-devtools/vite';
 import { defineConfig } from 'vite';
-import solid from 'vite-plugin-solid';
 
 import manifest from './manifest.config.ts';
 
@@ -15,8 +13,6 @@ export default defineConfig({
       manifest,
       browser: process.env.BROWSER_ENV === 'firefox' ? 'firefox' : 'chrome',
     }),
-    solid(),
-    devtools(),
   ],
   server: {
     strictPort: true,
@@ -34,5 +30,10 @@ export default defineConfig({
   },
   build: {
     target: tsconfig.compilerOptions.target,
+    // Store policy allows code minification. But, users should be able to
+    // read the installed code and evaluate its safety, so do not minify.
+    // https://developer.chrome.com/docs/webstore/program-policies/code-readability
+    // https://extensionworkshop.com/documentation/publish/source-code-submission/
+    minify: false,
   },
 });
