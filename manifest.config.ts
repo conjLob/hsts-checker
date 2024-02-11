@@ -4,7 +4,7 @@ import pkg from './package.json';
 
 // `ManifestV3Export` doesn't support `browser_specific_settings` for now (v2.0.0-beta.23).
 // So the manifest is validated with `browser._manifest.WebExtensionManifest` instead.
-const manifest: browser._manifest.WebExtensionManifest = {
+const manifest: globalThis.browser._manifest.WebExtensionManifest = {
   manifest_version: 3,
   name: pkg.displayName,
   version: pkg.version,

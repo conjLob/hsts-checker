@@ -22,8 +22,7 @@
     },
     "parser": {
       "unsafeParameterDecoratorsEnabled": true
-    },
-    "globals": ["browser", "chrome"]
+    }
   },
   "json": {
     "parser": {
@@ -63,5 +62,17 @@
         "useImportRestrictions": "off"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "include": ["**/*.d.ts"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noNamespace": "off"
+          }
+        }
+      }
+    }
+  ]
 }
